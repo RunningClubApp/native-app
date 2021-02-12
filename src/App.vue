@@ -1,9 +1,12 @@
 <template>
   <v-app id="app">
+    <v-app-bar app dense dark>
+      <v-toolbar-title>Page title</v-toolbar-title>
+    </v-app-bar>
     <v-main>
       <v-container>
         <router-view />
-        <v-btn class="mx-2 fab" elevation="2" href="#" color="red" fixed right fab>
+        <v-btn to="/tabRecord" class="mx-2 fab" elevation="2" href="#" color="red" fixed right fab>
           <fa-icon icon="dot-circle"></fa-icon>
         </v-btn>
       </v-container>
@@ -16,7 +19,7 @@
 import Tabs from './components/Tabs'
 export default {
   name: 'App',
-  components: { Tabs },
+  components: { Tabs }
 }
 </script>
 

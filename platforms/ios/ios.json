@@ -4,8 +4,83 @@
     "uninstalled": []
   },
   "config_munge": {
-    "files": {}
+    "files": {
+      "*-Info.plist": {
+        "parents": {
+          "NSLocationAlwaysUsageDescription": [
+            {
+              "xml": "<string>This app always requires location tracking</string>",
+              "count": 1
+            }
+          ],
+          "NSLocationWhenInUseUsageDescription": [
+            {
+              "xml": "<string>This app always requires location tracking</string>",
+              "count": 1
+            }
+          ],
+          "NSLocationAlwaysAndWhenInUseUsageDescription": [
+            {
+              "xml": "<string>This app always requires location tracking</string>",
+              "count": 1
+            }
+          ],
+          "NSMotionUsageDescription": [
+            {
+              "xml": "<string>This app requires motion detection</string>",
+              "count": 1
+            }
+          ],
+          "UIBackgroundModes": [
+            {
+              "xml": "<array><string>location</string></array>",
+              "count": 1
+            }
+          ],
+          "CFBundleURLTypes": [
+            {
+              "xml": "<array><dict><key>CFBundleTypeRole</key><string>Editor</string><key>CFBundleURLSchemes</key><array><string>prefs</string></array></dict></array>",
+              "count": 1
+            }
+          ]
+        }
+      },
+      "config.xml": {
+        "parents": {
+          "/*": [
+            {
+              "xml": "<feature name=\"BackgroundGeolocation\"><param name=\"ios-package\" value=\"CDVBackgroundGeolocation\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            }
+          ]
+        }
+      }
+    }
   },
-  "installed_plugins": {},
-  "dependent_plugins": {}
+  "installed_plugins": {
+    "cordova-plugin-mauron85-background-geolocation": {
+      "ALWAYS_USAGE_DESCRIPTION": "This app always requires location tracking",
+      "MOTION_USAGE_DESCRIPTION": "This app requires motion detection",
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    }
+  },
+  "dependent_plugins": {},
+  "modules": [
+    {
+      "id": "cordova-plugin-mauron85-background-geolocation.BackgroundGeolocation",
+      "file": "plugins/cordova-plugin-mauron85-background-geolocation/www/BackgroundGeolocation.js",
+      "pluginId": "cordova-plugin-mauron85-background-geolocation",
+      "clobbers": [
+        "BackgroundGeolocation"
+      ]
+    },
+    {
+      "id": "cordova-plugin-mauron85-background-geolocation.radio",
+      "file": "plugins/cordova-plugin-mauron85-background-geolocation/www/radio.js",
+      "pluginId": "cordova-plugin-mauron85-background-geolocation"
+    }
+  ],
+  "plugin_metadata": {
+    "cordova-plugin-mauron85-background-geolocation": "3.0.1"
+  }
 }

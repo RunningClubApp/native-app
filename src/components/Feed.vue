@@ -1,12 +1,10 @@
 <template>
-  <p>Hello!</p>
+  <p>Feed tab</p>
 </template>
 
 <script>
-import Tabs from '../components/Tabs'
 export default {
-  name: 'HelloWorld',
-  components: { Tabs },
+  name: 'Feed',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'

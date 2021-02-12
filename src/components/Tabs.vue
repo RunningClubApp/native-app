@@ -1,28 +1,27 @@
 <template>
   <v-bottom-navigation
     app
-    fixed
-    grow
-    v-model="tab"
+    dark
+    v-model="value"
     color="primary"
     >
 
-    <v-btn value="You">
+    <v-btn to="/tabYou">
       <span>You</span>
       <fa-icon icon="user"></fa-icon>
     </v-btn>
 
-    <v-btn disabled href="#">
+    <v-btn to="/tabFeed">
       <span>Feed</span>
       <fa-icon icon="newspaper"></fa-icon>
     </v-btn>
-    
-    <v-btn href="#">
+
+    <v-btn to="/tabLeagues">
       <span>Leagues</span>
       <fa-icon icon="trophy"></fa-icon>
     </v-btn>
 
-    <v-btn disabled href="#">
+    <v-btn to="/tabOptions">
       <span>Options</span>
       <fa-icon icon="cog"></fa-icon>
     </v-btn>
@@ -35,8 +34,7 @@ export default {
   name: 'Tabs',
   data () {
     return {
-      text: '',
-      tab: null
+      value: 'You'
     }
   }
 }

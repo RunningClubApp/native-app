@@ -43,6 +43,7 @@
     "cordova-android": "^9.0.0",
     "cordova-browser": "^6.0.0",
     "cordova-ios": "^6.2.0",
+    "cordova-plugin-mauron85-background-geolocation": "^3.0.1",
     "cross-env": "^5.0.1",
     "cross-spawn": "^5.0.1",
     "css-loader": "^0.28.0",
@@ -113,6 +114,20 @@
       "android",
       "ios",
       "browser"
-    ]
+    ],
+    "plugins": {
+      "cordova-plugin-mauron85-background-geolocation": {
+        "GOOGLE_PLAY_SERVICES_VERSION": "11+",
+        "ANDROID_SUPPORT_LIBRARY_VERSION": "26+",
+        "ICON": "@mipmap/icon",
+        "SMALL_ICON": "@mipmap/icon",
+        "ACCOUNT_NAME": "@string/app_name",
+        "ACCOUNT_LABEL": "@string/app_name",
+        "ACCOUNT_TYPE": "$PACKAGE_NAME.account",
+        "CONTENT_AUTHORITY": "$PACKAGE_NAME",
+        "ALWAYS_USAGE_DESCRIPTION": "This app always requires location tracking",
+        "MOTION_USAGE_DESCRIPTION": "This app requires motion detection"
+      }
+    }
   }
 }

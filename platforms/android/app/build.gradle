@@ -147,6 +147,7 @@ ext {
 }
 
 // PLUGIN GRADLE EXTENSIONS START
+apply from: "../cordova-plugin-mauron85-background-geolocation/hellocordova-dependencies.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras1 = file('build-extras.gradle').exists()
@@ -351,6 +352,9 @@ dependencies {
 
     // SUB-PROJECT DEPENDENCIES START
     implementation(project(path: ":CordovaLib"))
+    implementation "com.google.android.gms:play-services-location:11+"
+    implementation "com.android.support:support-v4:26+"
+    implementation "com.android.support:appcompat-v7:26+"
     // SUB-PROJECT DEPENDENCIES END
 }
 
