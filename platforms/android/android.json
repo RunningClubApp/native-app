@@ -5,53 +5,45 @@
   },
   "config_munge": {
     "files": {
-      "AndroidManifest.xml": {
+      "res/xml/config.xml": {
         "parents": {
-          "/manifest/application": [
+          "/*": [
             {
-              "xml": "<meta-data android:name=\"com.google.android.gms.version\" android:value=\"@integer/google_play_services_version\" />",
+              "xml": "<feature name=\"BackgroundFetch\"><param name=\"android-package\" value=\"com.transistorsoft.cordova.backgroundfetch.CDVBackgroundFetch\" /></feature>",
               "count": 1
             },
             {
-              "xml": "<service android:exported=\"true\" android:name=\"com.marianhello.bgloc.sync.SyncService\" android:process=\":sync\"><intent-filter><action android:name=\"android.content.SyncAdapter\" /></intent-filter><meta-data android:name=\"android.content.SyncAdapter\" android:resource=\"@xml/syncadapter\" /></service>",
+              "xml": "<feature name=\"BackgroundGeolocation\"><param name=\"android-package\" value=\"com.transistorsoft.cordova.bggeo.CDVBackgroundGeolocation\" /></feature>",
               "count": 1
             },
             {
-              "xml": "<service android:name=\"com.marianhello.bgloc.sync.AuthenticatorService\"><intent-filter><action android:name=\"android.accounts.AccountAuthenticator\" /></intent-filter><meta-data android:name=\"android.accounts.AccountAuthenticator\" android:resource=\"@xml/authenticator\" /></service>",
+              "xml": "<feature name=\"Geolocation\"><param name=\"android-package\" value=\"org.apache.cordova.geolocation.Geolocation\" /></feature>",
               "count": 1
             },
             {
-              "xml": "<provider android:authorities=\"@string/mauron85_bgloc_content_authority\" android:exported=\"false\" android:name=\"com.marianhello.bgloc.data.provider.LocationContentProvider\" android:syncable=\"true\" />",
+              "xml": "<feature name=\"Mapbox\"><param name=\"android-package\" value=\"com.telerik.plugins.mapbox.Mapbox\" /></feature>",
               "count": 1
             },
             {
-              "xml": "<service android:enabled=\"true\" android:exported=\"false\" android:name=\"com.marianhello.bgloc.service.LocationServiceImpl\" />",
-              "count": 1
-            },
-            {
-              "xml": "<receiver android:enabled=\"true\" android:exported=\"true\" android:name=\"com.marianhello.bgloc.BootCompletedReceiver\"><intent-filter><action android:name=\"android.intent.action.BOOT_COMPLETED\" /></intent-filter></receiver>",
+              "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             }
-          ],
-          "/manifest": [
+          ]
+        }
+      },
+      "AndroidManifest.xml": {
+        "parents": {
+          "/*": [
             {
-              "xml": "<uses-permission android:name=\"android.permission.AUTHENTICATE_ACCOUNTS\" />",
-              "count": 1
+              "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
+              "count": 2
             },
             {
-              "xml": "<uses-permission android:name=\"android.permission.READ_SYNC_SETTINGS\" />",
-              "count": 1
+              "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
+              "count": 2
             },
             {
-              "xml": "<uses-permission android:name=\"android.permission.WRITE_SYNC_SETTINGS\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"com.google.android.gms.permission.ACTIVITY_RECOGNITION\" />",
+              "xml": "<uses-feature android:name=\"android.hardware.location.gps\" android:required=\"true\" />",
               "count": 1
             },
             {
@@ -59,37 +51,15 @@
               "count": 1
             },
             {
-              "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.ACCESS_LOCATION_EXTRA_COMMANDS\" />",
-              "count": 1
-            },
-            {
               "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
               "count": 1
             },
             {
-              "xml": "<uses-permission android:name=\"android.permission.WAKE_LOCK\" />",
+              "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
               "count": 1
             },
             {
-              "xml": "<uses-permission android:name=\"android.hardware.location\" />",
-              "count": 1
-            }
-          ]
-        }
-      },
-      "res/xml/config.xml": {
-        "parents": {
-          "/*": [
-            {
-              "xml": "<feature name=\"BackgroundGeolocation\"><param name=\"android-package\" value=\"com.tenforwardconsulting.bgloc.cordova.BackgroundGeolocationPlugin\" /></feature>",
+              "xml": "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\" />",
               "count": 1
             }
           ]
@@ -97,58 +67,10 @@
       },
       "res/values/strings.xml": {
         "parents": {
-          "/resources": [
-            {
-              "xml": "<string name=\"mauron85_bgloc_account_name\">@string/app_name</string>",
-              "count": 1
-            },
-            {
-              "xml": "<string name=\"mauron85_bgloc_account_type\">io.cordova.hellocordova.account</string>",
-              "count": 1
-            },
-            {
-              "xml": "<string name=\"mauron85_bgloc_content_authority\">io.cordova.hellocordova</string>",
-              "count": 1
-            }
-          ]
-        }
-      },
-      "res/xml/authenticator.xml": {
-        "parents": {
           "/*": [
             {
-              "xml": "<account-authenticator android:accountType=\"@string/mauron85_bgloc_account_type\" android:icon=\"@mipmap/icon\" android:label=\"@string/app_name\" android:smallIcon=\"@mipmap/icon\" xmlns:android=\"http://schemas.android.com/apk/res/android\" />",
-              "count": 1,
-              "mode": "overwrite",
-              "plugin": "cordova-plugin-mauron85-background-geolocation",
-              "oldAttrib": {
-                "android:accountType": "@string/mauron85_bgloc_account_type",
-                "android:icon": "@mipmap/icon",
-                "android:label": "@string/app_name",
-                "android:smallIcon": "@mipmap/icon",
-                "xmlns:android": "http://schemas.android.com/apk/res/android"
-              }
-            }
-          ]
-        }
-      },
-      "res/xml/syncadapter.xml": {
-        "parents": {
-          "/*": [
-            {
-              "xml": "<sync-adapter android:accountType=\"@string/mauron85_bgloc_account_type\" android:allowParallelSyncs=\"false\" android:contentAuthority=\"@string/mauron85_bgloc_content_authority\" android:isAlwaysSyncable=\"true\" android:supportsUploading=\"true\" android:userVisible=\"false\" xmlns:android=\"http://schemas.android.com/apk/res/android\" />",
-              "count": 1,
-              "mode": "overwrite",
-              "plugin": "cordova-plugin-mauron85-background-geolocation",
-              "oldAttrib": {
-                "android:accountType": "@string/mauron85_bgloc_account_type",
-                "android:allowParallelSyncs": "false",
-                "android:contentAuthority": "@string/mauron85_bgloc_content_authority",
-                "android:isAlwaysSyncable": "true",
-                "android:supportsUploading": "true",
-                "android:userVisible": "false",
-                "xmlns:android": "http://schemas.android.com/apk/res/android"
-              }
+              "xml": "<string name=\"mapbox_accesstoken\">pk.eyJ1IjoidGVjcm9hc2RhbGUiLCJhIjoiY2thbnVsMXFvMGs1bjJzcGZtOWl2eTRkYiJ9.aAxvfikHkPZI4d2nf_m6AA</string>",
+              "count": 1
             }
           ]
         }
@@ -156,35 +78,98 @@
     }
   },
   "installed_plugins": {
-    "cordova-plugin-mauron85-background-geolocation": {
-      "GOOGLE_PLAY_SERVICES_VERSION": "11+",
-      "ANDROID_SUPPORT_LIBRARY_VERSION": "26+",
-      "ICON": "@mipmap/icon",
-      "SMALL_ICON": "@mipmap/icon",
-      "ACCOUNT_NAME": "@string/app_name",
-      "ACCOUNT_LABEL": "@string/app_name",
-      "ACCOUNT_TYPE": "$PACKAGE_NAME.account",
-      "CONTENT_AUTHORITY": "$PACKAGE_NAME",
+    "cordova-plugin-background-fetch": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-background-geolocation-lt": {
+      "GOOGLE_API_VERSION": "16.+",
+      "APPCOMPAT_VERSION": "28.+",
+      "OKHTTP_VERSION": "3.12.+",
+      "EVENTBUS_VERSION": "3.0.0",
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-androidx-adapter": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-geolocation": {
+      "GPS_REQUIRED": "true",
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-mapbox": {
+      "ACCESS_TOKEN": "pk.eyJ1IjoidGVjcm9hc2RhbGUiLCJhIjoiY2thbnVsMXFvMGs1bjJzcGZtOWl2eTRkYiJ9.aAxvfikHkPZI4d2nf_m6AA",
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     }
   },
   "dependent_plugins": {},
   "modules": [
     {
-      "id": "cordova-plugin-mauron85-background-geolocation.BackgroundGeolocation",
-      "file": "plugins/cordova-plugin-mauron85-background-geolocation/www/BackgroundGeolocation.js",
-      "pluginId": "cordova-plugin-mauron85-background-geolocation",
+      "id": "cordova-plugin-background-fetch.BackgroundFetch",
+      "file": "plugins/cordova-plugin-background-fetch/www/BackgroundFetch.js",
+      "pluginId": "cordova-plugin-background-fetch",
       "clobbers": [
-        "BackgroundGeolocation"
+        "window.BackgroundFetch"
       ]
     },
     {
-      "id": "cordova-plugin-mauron85-background-geolocation.radio",
-      "file": "plugins/cordova-plugin-mauron85-background-geolocation/www/radio.js",
-      "pluginId": "cordova-plugin-mauron85-background-geolocation"
+      "id": "cordova-background-geolocation-lt.BackgroundGeolocation",
+      "file": "plugins/cordova-background-geolocation-lt/www/BackgroundGeolocation.js",
+      "pluginId": "cordova-background-geolocation-lt",
+      "clobbers": [
+        "window.BackgroundGeolocation"
+      ]
+    },
+    {
+      "id": "cordova-background-geolocation-lt.API",
+      "file": "plugins/cordova-background-geolocation-lt/www/API.js",
+      "pluginId": "cordova-background-geolocation-lt"
+    },
+    {
+      "id": "cordova-background-geolocation-lt.DeviceSettings",
+      "file": "plugins/cordova-background-geolocation-lt/www/DeviceSettings.js",
+      "pluginId": "cordova-background-geolocation-lt"
+    },
+    {
+      "id": "cordova-background-geolocation-lt.Logger",
+      "file": "plugins/cordova-background-geolocation-lt/www/Logger.js",
+      "pluginId": "cordova-background-geolocation-lt"
+    },
+    {
+      "id": "cordova-background-geolocation-lt.TransistorAuthorizationToken",
+      "file": "plugins/cordova-background-geolocation-lt/www/TransistorAuthorizationToken.js",
+      "pluginId": "cordova-background-geolocation-lt"
+    },
+    {
+      "id": "cordova-plugin-geolocation.geolocation",
+      "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
+      "pluginId": "cordova-plugin-geolocation",
+      "clobbers": [
+        "navigator.geolocation"
+      ]
+    },
+    {
+      "id": "cordova-plugin-geolocation.PositionError",
+      "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
+      "pluginId": "cordova-plugin-geolocation",
+      "runs": true
+    },
+    {
+      "id": "cordova-plugin-mapbox.Mapbox",
+      "file": "plugins/cordova-plugin-mapbox/www/Mapbox.js",
+      "pluginId": "cordova-plugin-mapbox",
+      "clobbers": [
+        "Mapbox"
+      ]
     }
   ],
   "plugin_metadata": {
-    "cordova-plugin-mauron85-background-geolocation": "3.0.1"
+    "cordova-plugin-background-fetch": "6.1.1",
+    "cordova-background-geolocation-lt": "3.9.4",
+    "cordova-plugin-androidx-adapter": "1.1.3",
+    "cordova-plugin-geolocation": "4.1.0",
+    "cordova-plugin-mapbox": "1.2.3",
+    "cordova-plugin-whitelist": "1.3.4"
   }
 }

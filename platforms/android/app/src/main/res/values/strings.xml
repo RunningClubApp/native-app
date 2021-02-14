@@ -1,9 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">HelloCordova</string>
+    <string name="app_name">Running Club</string>
     <string name="launcher_name">@string/app_name</string>
     <string name="activity_name">@string/launcher_name</string>
-    <string name="mauron85_bgloc_account_name">@string/app_name</string>
-    <string name="mauron85_bgloc_account_type">io.cordova.hellocordova.account</string>
-    <string name="mauron85_bgloc_content_authority">io.cordova.hellocordova</string>
+    <string name="mapbox_accesstoken">pk.eyJ1IjoidGVjcm9hc2RhbGUiLCJhIjoiY2thbnVsMXFvMGs1bjJzcGZtOWl2eTRkYiJ9.aAxvfikHkPZI4d2nf_m6AA</string>
 </resources>

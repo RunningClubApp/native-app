@@ -4,30 +4,100 @@
     "uninstalled": []
   },
   "config_munge": {
-    "files": {}
+    "files": {
+      "config.xml": {
+        "parents": {
+          "/*": [
+            {
+              "xml": "<feature name=\"BackgroundGeolocation\" />",
+              "count": 1
+            }
+          ]
+        }
+      }
+    }
   },
   "installed_plugins": {
-    "cordova-plugin-mauron85-background-geolocation": {
+    "cordova-plugin-geolocation": {
+      "GPS_REQUIRED": "true",
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-background-fetch": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-background-geolocation-lt": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-androidx-adapter": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-mapbox": {
+      "ACCESS_TOKEN": "pk.eyJ1IjoidGVjcm9hc2RhbGUiLCJhIjoiY2thbnVsMXFvMGs1bjJzcGZtOWl2eTRkYiJ9.aAxvfikHkPZI4d2nf_m6AA",
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
     }
   },
   "dependent_plugins": {},
   "modules": [
     {
-      "file": "plugins/cordova-plugin-mauron85-background-geolocation/www/BackgroundGeolocation.js",
-      "id": "cordova-plugin-mauron85-background-geolocation.BackgroundGeolocation",
-      "pluginId": "cordova-plugin-mauron85-background-geolocation",
+      "file": "plugins/cordova-plugin-background-fetch/www/BackgroundFetch.js",
+      "id": "cordova-plugin-background-fetch.BackgroundFetch",
+      "pluginId": "cordova-plugin-background-fetch",
       "clobbers": [
-        "BackgroundGeolocation"
+        "window.BackgroundFetch"
       ]
     },
     {
-      "file": "plugins/cordova-plugin-mauron85-background-geolocation/www/radio.js",
-      "id": "cordova-plugin-mauron85-background-geolocation.radio",
-      "pluginId": "cordova-plugin-mauron85-background-geolocation"
+      "file": "plugins/cordova-background-geolocation-lt/www/BackgroundGeolocation.js",
+      "id": "cordova-background-geolocation-lt.BackgroundGeolocation",
+      "pluginId": "cordova-background-geolocation-lt",
+      "clobbers": [
+        "window.BackgroundGeolocation"
+      ]
+    },
+    {
+      "file": "plugins/cordova-background-geolocation-lt/www/API.js",
+      "id": "cordova-background-geolocation-lt.API",
+      "pluginId": "cordova-background-geolocation-lt"
+    },
+    {
+      "file": "plugins/cordova-background-geolocation-lt/www/DeviceSettings.js",
+      "id": "cordova-background-geolocation-lt.DeviceSettings",
+      "pluginId": "cordova-background-geolocation-lt"
+    },
+    {
+      "file": "plugins/cordova-background-geolocation-lt/www/Logger.js",
+      "id": "cordova-background-geolocation-lt.Logger",
+      "pluginId": "cordova-background-geolocation-lt"
+    },
+    {
+      "file": "plugins/cordova-background-geolocation-lt/www/TransistorAuthorizationToken.js",
+      "id": "cordova-background-geolocation-lt.TransistorAuthorizationToken",
+      "pluginId": "cordova-background-geolocation-lt"
+    },
+    {
+      "file": "plugins/cordova-background-geolocation-lt/src/browser/BackgroundGeolocationMock.js",
+      "id": "cordova-background-geolocation-lt.BackgroundGeolocationMock",
+      "pluginId": "cordova-background-geolocation-lt",
+      "runs": true
+    },
+    {
+      "file": "plugins/cordova-plugin-mapbox/www/Mapbox.js",
+      "id": "cordova-plugin-mapbox.Mapbox",
+      "pluginId": "cordova-plugin-mapbox",
+      "clobbers": [
+        "Mapbox"
+      ]
     }
   ],
   "plugin_metadata": {
-    "cordova-plugin-mauron85-background-geolocation": "3.0.1"
+    "cordova-plugin-geolocation": "4.1.0",
+    "cordova-plugin-background-fetch": "6.1.1",
+    "cordova-background-geolocation-lt": "3.9.4",
+    "cordova-plugin-androidx-adapter": "1.1.3",
+    "cordova-plugin-mapbox": "1.2.3",
+    "cordova-plugin-whitelist": "1.3.4"
   }
 }
