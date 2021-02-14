@@ -8,6 +8,8 @@ import VueCordova from 'vue-cordova'
 
 import vuetify from './plugins/vuetify'
 
+import store from './store/index'
+
 Vue.config.productionTip = false
 
 Vue.use(VueHead)
@@ -19,6 +21,7 @@ new Vue({
   vuetify,
   VueHead,
   VueCordova,
+  store,
   components: { App },
   template: '<App/>'
 })

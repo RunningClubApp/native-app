@@ -17,7 +17,7 @@
     <v-text-field
       v-model="signupDetails.password"
       type="password"
-      :rules="nameRules"
+      :rules="passRules"
       label="Password"
       required
       >
@@ -25,7 +25,7 @@
     <v-text-field
       v-model="signupDetails.confirmPassword"
       type="password"
-      :rules="nameRules"
+      :rules="passRules"
       label="Confirm Password"
       required
       >
@@ -36,13 +36,17 @@
         color="primary"
         elevation="1"
         large
+        @click="createUserAccount"
       >Create account</v-btn>
   </div>
 </template>
 
 <script>
+import * as api from '../plugins/api'
+import { setUserToken } from '../plugins/userstore'
+
 export default {
-  name: 'Account',
+  name: 'Signup',
   data () {
     return {
       signupDetails: {
@@ -60,11 +64,35 @@ export default {
         v => v.length <= 10 || 'Name must be less than 10 characters'
       ]
     },
+    passRules () {
+      return [
+        v => !!v || 'Password is required',
+        v => v.length >= 8 || 'Name must be at least 8 characters'
+      ]
+    },
     emailRules () {
       return [
         v => !!v || 'E-mail is required',
         v => /.+@.+/.test(v) || 'E-mail must be valid'
       ]
+    }
+  },
+  methods: {
+    createUserAccount () {
+      api.post('auth', this.signupDetails, false)
+        .then((data) => {
+          if (data.success) {
+            setUserToken(data.token.token)
+            this.$router.push({ name: 'Feed' })
+          } else {
+            console.log(data)
+            this.errors = data.errors
+            console.log(this.errors)
+          }
+        })
+        .catch((e) => {
+          console.log(e)
+        })
     }
   }
 }

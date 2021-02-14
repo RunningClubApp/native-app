@@ -13,12 +13,36 @@
     </v-main>
     <AccountTabs v-if="tabs==='account'"></AccountTabs>
     <Tabs v-else></Tabs>
+
+    <v-snackbar
+      v-model="snackbar"
+    >
+      {{ snackText }}
+
+      <v-btn
+        color="pink"
+        text
+3
+Tab
+Etta James
+20
+Chords
+Tin Pan Alley
+7
+Chords
+I Dont Mind If Im With
+        @click="closeSnack"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-app>
 </template>
 
 <script>
 import Tabs from './components/Tabs'
 import AccountTabs from './components/AccountTabs'
+
 export default {
   name: 'App',
   components: { Tabs, AccountTabs },
@@ -30,11 +54,33 @@ export default {
     }
   },
   mounted () {
-    console.log(this.$route)
-    this.showRecordBtn = this.$route.meta.showRecordBtn === undefined ? true : this.$route.meta.showRecordBtn
-    this.tabs = this.$route.meta.tabs === undefined ? 'default' : this.$route.meta.tabs
-    this.title = this.$route.name
-    console.log(this.tabs, this.showRecordBtn, this.title)
+    this.updateNavs()
+  },
+  watch: {
+    $route (to, from) {
+      this.updateNavs()
+    }
+  },
+  computed: {
+    snackbar () {
+      return this.$store.state.snack !== undefined
+    },
+    snackText () {
+      if (this.$store.state.snack !== undefined) {
+        return this.$store.state.snack.text
+      }
+      return ''
+    }
+  },
+  methods: {
+    updateNavs () {
+      this.showRecordBtn = this.$route.meta.showRecordBtn === undefined ? true : this.$route.meta.showRecordBtn
+      this.tabs = this.$route.meta.tabs === undefined ? 'default' : this.$route.meta.tabs
+      this.title = this.$route.name
+    },
+    closeSnack () {
+      this.$store.commit('rmSnack')
+    }
   }
 }
 </script>

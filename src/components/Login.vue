@@ -1,22 +1,23 @@
 <template>
   <div>
     <v-text-field
-      v-model="signupDetails.email"
+      v-model="loginDetails.email"
       :rules="emailRules"
       label="Email"
       required
       >
       </v-text-field>
     <v-text-field
-      v-model="signupDetails.password"
+      v-model="loginDetails.password"
       type="password"
-      :rules="nameRules"
+      :rules="passRules"
       label="Password"
       required
       >
       </v-text-field>
 
       <v-btn
+        @click="loginToAccount"
         block
         color="primary"
         elevation="1"
@@ -26,21 +27,23 @@
 </template>
 
 <script>
+import * as api from '../plugins/api'
+import { setUserToken } from '../plugins/userstore'
+
 export default {
-  name: 'Account',
+  name: 'Login',
   data () {
     return {
-      signupDetails: {
-        name: '',
+      loginDetails: {
+        email: '',
         password: ''
       }
     }
   },
   computed: {
-    nameRules () {
+    passRules () {
       return [
-        v => !!v || 'Name is required',
-        v => v.length <= 10 || 'Name must be less than 10 characters'
+        v => !!v || 'Password is required'
       ]
     },
     emailRules () {
@@ -48,6 +51,24 @@ export default {
         v => !!v || 'E-mail is required',
         v => /.+@.+/.test(v) || 'E-mail must be valid'
       ]
+    }
+  },
+  methods: {
+    loginToAccount () {
+      api.post('auth/login', this.loginDetails, false)
+        .then((data) => {
+          if (data.success) {
+            setUserToken(data.token.token)
+            this.$router.push({ name: 'Feed' })
+          } else {
+            console.log(data)
+            this.errors = data.errors
+            console.log(this.errors)
+          }
+        })
+        .catch((e) => {
+          console.log(e)
+        })
     }
   }
 }

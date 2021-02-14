@@ -16,7 +16,7 @@ const router = new Router({
   routes: [
     {
       path: '/account/signup',
-      name: 'SignUp',
+      name: 'Sign Up',
       component: Signup,
       meta: {
         guestAllowed: true,
@@ -26,7 +26,7 @@ const router = new Router({
     },
     {
       path: '/account/login',
-      name: 'LogIn',
+      name: 'Log In',
       component: Login,
       meta: {
         guestAllowed: true,
@@ -36,27 +36,27 @@ const router = new Router({
     },
     {
       path: '/tabYou',
-      name: 'TabYou',
+      name: 'You',
       component: You
     },
     {
       path: '/tabFeed',
-      name: 'TabFeed',
+      name: 'Feed',
       component: Feed
     },
     {
       path: '/tabLeagues',
-      name: 'TabLeagues',
+      name: 'Leagues',
       component: Leagues
     },
     {
       path: '/tabOptions',
-      name: 'TabOptions',
+      name: 'Options',
       component: Options
     },
     {
       path: '/tabRecord',
-      name: 'TabRecord',
+      name: 'Record',
       component: Record
     }
   ]
@@ -64,13 +64,13 @@ const router = new Router({
 
 router.beforeEach(async (to, from, next) => {
   const uToken = await getUserToken()
-  console.log(to.matched)
+  console.log(uToken, to.matched)
   if (to.matched.some(record => record.meta.guestAllowed)) {
     next()
   } else {
     if (uToken === null || uToken === undefined) {
       next({
-        path: '/account/signup'
+        name: 'Sign Up'
       })
     } else {
       next()

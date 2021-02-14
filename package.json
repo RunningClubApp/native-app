@@ -22,7 +22,8 @@
     "vue-cordova": "^0.1.2",
     "vue-head": "^2.2.0",
     "vue-router": "^3.0.1",
-    "vuetify": "^2.4.4"
+    "vuetify": "^2.4.4",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
