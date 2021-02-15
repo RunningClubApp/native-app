@@ -1,4 +1,4 @@
 module.exports = {
-  secure: false,
-  host: 'localhost:8080'
+  secure: true,
+  host: 'runningclub.app'
 }

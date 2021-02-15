@@ -22,15 +22,6 @@
       <v-btn
         color="pink"
         text
-3
-Tab
-Etta James
-20
-Chords
-Tin Pan Alley
-7
-Chords
-I Dont Mind If Im With
         @click="closeSnack"
       >
         Close

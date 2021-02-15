@@ -6,9 +6,6 @@
     <feature name="BackgroundGeolocation">
         <param name="android-package" value="com.transistorsoft.cordova.bggeo.CDVBackgroundGeolocation" />
     </feature>
-    <feature name="Geolocation">
-        <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
-    </feature>
     <feature name="Mapbox">
         <param name="android-package" value="com.telerik.plugins.mapbox.Mapbox" />
     </feature>

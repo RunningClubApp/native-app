@@ -2,10 +2,10 @@
   <div>
     <div id="map" :style="`width:${mapWidth}px;height:${mapHeight}px`">
     </div>
-    <v-btn v-if="state===states.default" @click="StartRecord" class="fab" elevation="4" color="red" fixed right fab>
+    <v-btn v-if="state===states.ready" @click="StartRecord" class="fab" elevation="4" color="red" fixed right fab>
       <fa-icon icon="dot-circle"></fa-icon>
     </v-btn>
-    <v-btn v-if="state===states.recording" @click="StopRecord" class="fab" elevation="4" color="red" fixed right fab>
+    <v-btn v-if="state===states.recording" @click="StopRecord" class="fab" elevation="4" color="red" fixed left fab>
       <fa-icon icon="stop"></fa-icon>
     </v-btn>
     <v-btn v-if="state===states.saving" @click="SaveRecording" class="fab" elevation="4" color="red" fixed right fab>
@@ -25,9 +25,10 @@ export default {
   data () {
     return {
       states: {
-        default: 0,
-        recording: 1,
-        saving: 2
+        default: 1,
+        ready: 2,
+        recording: 3,
+        saving: 4
       },
       state: 0,
       accessToken: 'pk.eyJ1IjoidGVjcm9hc2RhbGUiLCJhIjoiY2thbnVsMXFvMGs1bjJzcGZtOWl2eTRkYiJ9.aAxvfikHkPZI4d2nf_m6AA', // your access token. Needed if you using Mapbox maps
@@ -42,10 +43,47 @@ export default {
   mounted () {
     this.mapWidth = window.innerWidth
     this.mapHeight = window.innerHeight
-    console.log(this.mapWidth, this.mapHeight)
+    console.log(JSON.stringify(this.mapWidth, this.mapHeight))
     this.CreateMap()
+    this.ReadyGeo()
   },
   methods: {
+    ReadyGeo () {
+      if (window.BackgroundGeolocation) {
+        window.BackgroundGeolocation.onLocation(this.RecordPoint, this.onError)
+        window.BackgroundGeolocation.ready({
+          reset: true,
+          // Geolocation Config
+          desiredAccuracy: window.BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
+          distanceFilter: 1,
+          // Activity Recognition
+          stopTimeout: 5,
+          // Application config
+          debug: true, // <-- enable this hear sounds for background-geolocation life-cycle.
+          logLevel: window.BackgroundGeolocation.LOG_LEVEL_VERBOSE,
+          stopOnTerminate: false, // <-- Allow the background-service to continue tracking when user closes the app.
+          startOnBoot: false, // <-- Auto start tracking when device is powered-up.
+          notification: {
+            title: 'Running club',
+            text: 'Keep going!'
+          },
+          // HTTP / SQLite config
+          url: 'https://runningclub.app/auth'
+        }, (state) => {
+          console.log('- BackgroundGeolocation is configured and ready: ', state.enabled)
+          console.log(JSON.stringify(state))
+          if (!state.enabled) {
+            // 3. Start tracking!
+            window.BackgroundGeolocation.start()
+              .then((state) => {
+                console.log('bgGEO started - ', state)
+              })
+          }
+          this.state = this.states.ready
+          this.GetCurrentLocation()
+        })
+      }
+    },
     CreateMap () {
       mapboxgl.accessToken = this.accessToken
       this.map = new mapboxgl.Map({
@@ -82,28 +120,37 @@ export default {
           'source': 'path',
           'paint': {
             'line-color': 'red',
-            'line-opacity': 0.75,
+            'line-opacity': 1,
             'line-width': 15
           }
         })
-
-        navigator.geolocation.getCurrentPosition((data) => {
+      })
+    },
+    GetCurrentLocation () {
+      window.BackgroundGeolocation.getCurrentPosition({
+        timeout: 30, // 30 second timeout to fetch location
+        maximumAge: 5000, // Accept the last-known-location if not older than 5000 ms.
+        desiredAccuracy: 10, // Try to fetch a location with an accuracy of `10` meters.
+        samples: 3 // How many location samples to attempt.
+      })
+        .then((data) => {
           this.map.panTo(new mapboxgl.LngLat(data.coords.longitude, data.coords.latitude))
         })
-      })
+    },
+    onError (error) {
+      console.warn('[location] ERROR -', JSON.stringify(error))
     },
     StartRecord () {
       if (window.BackgroundGeolocation) {
-        window.BackgroundGeolocation.onLocation(this.RecordPoint)
-        window.BackgroundGeolocation.start()
-          .then(() => {
-            console.log('bgGEO started')
+        window.BackgroundGeolocation.changePace(true)
+          .then((data) => {
+            console.log(data)
           })
       } else {
         this.watch = navigator.geolocation.watchPosition(this.RecordPoint)
       }
       this.state = this.states.recording
-      console.log(this.state)
+      console.log('>>> Starting Record')
     },
     StopRecord () {
       if (window.BackgroundGeolocation) {
@@ -113,6 +160,8 @@ export default {
       }
       this.state = this.states.saving
       this.modalOpen = true
+      this.ZoomMapToLine()
+      console.log('>>> Stopping Record')
     },
     DeleteRecording () {
       this.recordedPath = []
@@ -136,7 +185,7 @@ export default {
       }
       this.map.panTo(new mapboxgl.LngLat(p.coords.lng, p.coords.lat))
       this.recordedPath.push(p)
-      console.log('recorded point', p, this.recordedPath.length)
+      console.log('recorded point', JSON.stringify(p), this.recordedPath.length)
 
       const lineData = {
         type: 'Feature',
@@ -147,6 +196,20 @@ export default {
         }
       }
       this.map.getSource('path').setData(lineData)
+    },
+    ZoomMapToLine () {
+      var coordinates = this.recordedPath.map(x => [x.coords.lng, x.coords.lat])
+      if (coordinates.length < 1) {
+        return
+      }
+
+      var bounds = coordinates.reduce(function (bounds, coord) {
+        return bounds.extend(coord)
+      }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]))
+
+      this.map.fitBounds(bounds, {
+        padding: 20
+      })
     }
   },
   head: {
@@ -184,6 +247,7 @@ a {
   position: fixed;
   top: 0;
   bottom: 0;
+  left: 0;
   width: 100%;
 }
 
