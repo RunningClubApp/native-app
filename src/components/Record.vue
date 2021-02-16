@@ -20,6 +20,8 @@
 <script>
 import mapboxgl from 'mapbox-gl'
 
+import * as api from '../plugins/api'
+
 export default {
   name: 'Record',
   data () {
@@ -55,20 +57,20 @@ export default {
           reset: true,
           // Geolocation Config
           desiredAccuracy: window.BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-          distanceFilter: 1,
+          distanceFilter: 5,
           // Activity Recognition
           stopTimeout: 5,
           // Application config
-          debug: true, // <-- enable this hear sounds for background-geolocation life-cycle.
+          debug: false, // <-- enable this hear sounds for background-geolocation life-cycle.
           logLevel: window.BackgroundGeolocation.LOG_LEVEL_VERBOSE,
-          stopOnTerminate: false, // <-- Allow the background-service to continue tracking when user closes the app.
+          stopOnTerminate: true, // <-- Allow the background-service to continue tracking when user closes the app.
           startOnBoot: false, // <-- Auto start tracking when device is powered-up.
           notification: {
             title: 'Running club',
             text: 'Keep going!'
           },
           // HTTP / SQLite config
-          url: 'https://runningclub.app/auth'
+          url: undefined
         }, (state) => {
           console.log('- BackgroundGeolocation is configured and ready: ', state.enabled)
           console.log(JSON.stringify(state))
@@ -165,13 +167,38 @@ export default {
     },
     DeleteRecording () {
       this.recordedPath = []
-      this.state = this.states.default
+      this.state = this.states.ready
     },
     SaveRecording () {
-      this.state = this.states.default
+      this.state = this.states.ready
+      if (this.recordedPath.length < 2) {
+        this.$store.commit('createSnack', 'Path to short to save')
+        return
+      }
+      const start = this.recordedPath[0].timestamp
+      const end = this.recordedPath[this.recordedPath.length - 1].timestamp
+
+      api.post(`exercise?s=${start}&e=${end}`, { path: this.recordedPath }, true)
+        .then((data) => {
+          console.log(data)
+          if (data.success) {
+            this.state = this.states.default
+            this.recordedPath = []
+            this.$router.push('/tabs/tabFeed')
+            this.$store.commit('createSnack', 'Saved path!')
+          } else {
+            this.errors = data.errors
+            console.log(this.errors)
+            this.$store.commit('createSnack', 'Failed to save path')
+          }
+        })
+        .catch((e) => {
+          console.log(e)
+        })
     },
     RecordPoint (data) {
       console.log(data, this.state)
+      this.map.panTo(new mapboxgl.LngLat(data.coords.longitude, data.coords.latitude))
       if (this.state !== this.states.recording) {
         return
       }
@@ -183,7 +210,6 @@ export default {
         elevation: data.coords.altitude | 0,
         timestamp: new Date(data.timestamp).toISOString()
       }
-      this.map.panTo(new mapboxgl.LngLat(p.coords.lng, p.coords.lat))
       this.recordedPath.push(p)
       console.log('recorded point', JSON.stringify(p), this.recordedPath.length)
 
@@ -208,7 +234,7 @@ export default {
       }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]))
 
       this.map.fitBounds(bounds, {
-        padding: 20
+        padding: 35
       })
     }
   },
