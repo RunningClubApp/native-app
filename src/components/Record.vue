@@ -50,8 +50,16 @@ export default {
     this.ReadyGeo()
   },
   methods: {
-    ReadyGeo () {
+    async ReadyGeo () {
       if (window.BackgroundGeolocation) {
+        let state = await BackgroundGeolocation.getState();
+        console.log("[state] ", state.enabled, state.trackingMode);
+        if (state.enabled) {
+          this.state = this.states.ready
+          this.GetCurrentLocation()
+          return
+        }
+
         window.BackgroundGeolocation.onLocation(this.RecordPoint, this.onError)
         window.BackgroundGeolocation.ready({
           reset: true,
