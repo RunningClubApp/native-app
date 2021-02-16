@@ -52,8 +52,8 @@ export default {
   methods: {
     async ReadyGeo () {
       if (window.BackgroundGeolocation) {
-        let state = await BackgroundGeolocation.getState();
-        console.log("[state] ", state.enabled, state.trackingMode);
+        let state = await window.BackgroundGeolocation.getState()
+        console.log('[state] ', state.enabled, state.trackingMode)
         if (state.enabled) {
           this.state = this.states.ready
           this.GetCurrentLocation()
@@ -92,6 +92,9 @@ export default {
           this.state = this.states.ready
           this.GetCurrentLocation()
         })
+      } else {
+        this.state = this.states.ready
+        this.GetCurrentLocation()
       }
     },
     CreateMap () {
@@ -137,15 +140,21 @@ export default {
       })
     },
     GetCurrentLocation () {
-      window.BackgroundGeolocation.getCurrentPosition({
-        timeout: 30, // 30 second timeout to fetch location
-        maximumAge: 5000, // Accept the last-known-location if not older than 5000 ms.
-        desiredAccuracy: 10, // Try to fetch a location with an accuracy of `10` meters.
-        samples: 3 // How many location samples to attempt.
-      })
-        .then((data) => {
+      if (window.BackgroundGeolocation) {
+        window.BackgroundGeolocation.getCurrentPosition({
+          timeout: 30, // 30 second timeout to fetch location
+          maximumAge: 5000, // Accept the last-known-location if not older than 5000 ms.
+          desiredAccuracy: 10, // Try to fetch a location with an accuracy of `10` meters.
+          samples: 3 // How many location samples to attempt.
+        })
+          .then((data) => {
+            this.map.panTo(new mapboxgl.LngLat(data.coords.longitude, data.coords.latitude))
+          })
+      } else {
+        navigator.geolocation.getCurrentPosition((data) => {
           this.map.panTo(new mapboxgl.LngLat(data.coords.longitude, data.coords.latitude))
         })
+      }
     },
     onError (error) {
       console.warn('[location] ERROR -', JSON.stringify(error))
@@ -233,7 +242,7 @@ export default {
     },
     ZoomMapToLine () {
       var coordinates = this.recordedPath.map(x => [x.coords.lng, x.coords.lat])
-      if (coordinates.length < 1) {
+      if (coordinates.length < 2) {
         return
       }
 
