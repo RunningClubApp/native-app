@@ -8,23 +8,24 @@
     >
 
     <v-btn to="/tabYou">
-      <span>You</span>
-      <fa-icon icon="user"></fa-icon>
+      <!-- <span>You</span> -->
+
+      <fa-icon icon="user" size="2x"></fa-icon>
     </v-btn>
 
     <v-btn to="/tabFeed">
-      <span>Feed</span>
-      <fa-icon icon="newspaper"></fa-icon>
+      <!-- <span>Feed</span> -->
+      <fa-icon icon="newspaper" size="2x"></fa-icon>
     </v-btn>
 
     <v-btn to="/tabLeagues">
-      <span>Leagues</span>
-      <fa-icon icon="trophy"></fa-icon>
+      <!-- <span>Leagues</span> -->
+      <fa-icon icon="trophy" size="2x"></fa-icon>
     </v-btn>
 
     <v-btn to="/tabOptions">
-      <span>Options</span>
-      <fa-icon icon="cog"></fa-icon>
+      <!-- <span>Options</span> -->
+      <fa-icon icon="cog" size="2x"></fa-icon>
     </v-btn>
 
   </v-bottom-navigation>

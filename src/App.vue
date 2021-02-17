@@ -3,12 +3,14 @@
     <v-app-bar app dense dark>
       <v-toolbar-title>{{ title }}</v-toolbar-title>
     </v-app-bar>
-    <v-main>
+    <v-main style="padding: 0;">
       <v-container>
         <router-view />
-        <v-btn v-if="showRecordBtn" to="/tabRecord" class="center-btn" elevation="0" href="#" color="red" fixed middle fab>
-          <fa-icon icon="dot-circle"></fa-icon>
-        </v-btn>
+        <div v-if="showRecordBtn" class="center-btn-container">
+          <v-btn to="/tabRecord" class="center-btn" elevation="2" href="#" color="red" fab>
+            <fa-icon icon="dot-circle"></fa-icon>
+          </v-btn>
+        </div>
       </v-container>
     </v-main>
     <AccountTabs v-if="tabs==='account'"></AccountTabs>
@@ -77,10 +79,21 @@ export default {
 </script>
 
 <style>
-.center-btn {
+.center-btn-container {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 30;
+  height: 56px;
   z-index: 100 !important;
-  bottom: 30px;
-  transform: translateX(-50%);
+}
+
+.center-btn {
+  display: block;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #app {

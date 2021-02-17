@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import You from '@/components/You'
 import Leagues from '@/components/Leagues'
+import CreateLeague from '@/components/CreateLeague'
 import Record from '@/components/Record'
 import Feed from '@/components/Feed'
 import Options from '@/components/Options'
@@ -47,7 +48,12 @@ const router = new Router({
     {
       path: '/tabLeagues',
       name: 'Leagues',
-      component: Leagues
+      component: Leagues,
+    },
+    {
+      path: '/tabLeagues/create',
+      name: 'Create League',
+      component: CreateLeague
     },
     {
       path: '/tabOptions',
